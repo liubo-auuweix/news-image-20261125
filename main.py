@@ -13,6 +13,12 @@ in the grader the output directory is /output.
 import os
 import sys
 
+# The grader runs `python3 -P -s /bot/main.py`: safe-path mode (-P) does
+# NOT put the script's directory on sys.path, so plain sibling imports
+# (`from png import ...`) fail with ModuleNotFoundError and exit 1.
+# Resolve the entry's own directory from __file__ and put it first.
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 from png import encode_png
 from poster import WIDTH, HEIGHT, render_poster
 
